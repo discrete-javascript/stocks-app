@@ -4,9 +4,10 @@
  * @return {promise} promises to be resolved in the createAsyncThunk.
  */
 
+import axios from 'axios';
+
 export async function fetchStocksAPI(endpoint) {
-  return await fetch(endpoint)
-    .then((response) => response.json())
-    .then((body) => body)
+  return await axios(endpoint)
+    .then((body) => body.data)
     .catch((error) => console.error('Error', error));
 }

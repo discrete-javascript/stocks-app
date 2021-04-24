@@ -41,7 +41,7 @@ export default function StocksContainer() {
   useEffect(() => {
     dispatch(fetchStocksAsync());
     dispatch(fetchSelectedStockCandleAsync());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box className={classes.box} component="div">
