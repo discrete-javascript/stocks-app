@@ -2,18 +2,21 @@ import React from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { useSelector } from 'react-redux';
-import { getTimeSeriesData, getVolumeData } from '../stocks/stocksSlice';
+import {
+  getIsChartLoaded,
+  getResetChart,
+  getTimeSeriesData,
+  getVolumeData,
+} from '../stocks/stocksSlice';
 
 const ChartsContainer = () => {
   const timeSeries = useSelector(getTimeSeriesData);
   const volumeData = useSelector(getVolumeData);
-  const groupingUnits = [
-    [
-      'week', // unit name
-      [1], // allowed multiples
-    ],
-    ['month', [1, 2, 3, 4, 6]],
-  ];
+  const isChartLoaded = useSelector(getIsChartLoaded);
+  const resetChart = useSelector(getResetChart);
+
+  const groupingUnits = [['month', [1, 2, 3, 4, 6]]];
+
   const options = {
     rangeSelector: {
       selected: 1,
@@ -83,20 +86,27 @@ const ChartsContainer = () => {
           units: groupingUnits,
         },
       },
+      {
+        type: 'column',
+        name: 'Volume',
+        data: volumeData,
+        yAxis: 1,
+        dataGrouping: {
+          units: groupingUnits,
+        },
+      },
     ],
   };
 
-  return (
-    timeSeries.length && (
-      <div>
-        <HighchartsReact
-          highcharts={Highcharts}
-          constructorType={'stockChart'}
-          options={options}
-        />
-      </div>
-    )
-  );
+  return isChartLoaded && !resetChart ? (
+    <div>
+      <HighchartsReact
+        highcharts={Highcharts}
+        constructorType={'stockChart'}
+        options={options}
+      />
+    </div>
+  ) : null;
 };
 
 export default ChartsContainer;

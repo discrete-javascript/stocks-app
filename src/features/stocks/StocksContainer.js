@@ -3,13 +3,29 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
+import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import Stocks from './Stocks';
-import { fetchSelectedStockCandleAsync, fetchStocksAsync } from './stocksSlice';
-import { useDispatch } from 'react-redux';
+import {
+  fetchSelectedStockCandleAsync,
+  fetchStocksAsync,
+  getStocks,
+} from './stocksSlice';
 import Charts from '../charts/ChartsContainer';
 
 const useStyles = makeStyles((theme) => {
   return {
+    topContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    loadingContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexFlow: 'column',
+    },
     box: {
       display: 'flex',
       justifyContent: 'center',
@@ -40,14 +56,22 @@ export default function StocksContainer() {
 
   useEffect(() => {
     dispatch(fetchStocksAsync());
-    dispatch(fetchSelectedStockCandleAsync());
-  }, [dispatch]);
+  }, []);
+
+  const selectedStocks = useSelector(getStocks);
 
   return (
     <Box className={classes.box} component="div">
       <Card className={classes.root}>
-        <CardContent>
-          <Stocks />
+        <CardContent className={classes.topContainer}>
+          {selectedStocks.length ? (
+            <Stocks selectedStocks={selectedStocks} />
+          ) : (
+            <CardContent className={classes.loadingContainer}>
+              <CircularProgress />
+              <p>Please wait </p>
+            </CardContent>
+          )}
         </CardContent>
         <CardContent>
           <Charts />

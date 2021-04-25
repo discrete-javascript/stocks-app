@@ -8,6 +8,6 @@ import axios from 'axios';
 
 export async function fetchStocksAPI(endpoint) {
   return await axios(endpoint)
-    .then((body) => body.data)
+    .then((body) => body)
     .catch((error) => console.error('Error', error));
 }

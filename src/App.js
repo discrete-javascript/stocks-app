@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 
 function App() {
-  const DarkTheme = createMuiTheme({
+  const theme = createMuiTheme({
     typography: {
       fontFamily: [
         '-apple-system',
@@ -23,7 +23,7 @@ function App() {
   });
 
   return (
-    <ThemeProvider theme={DarkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="App">
         <h3>Stocks Management</h3>
