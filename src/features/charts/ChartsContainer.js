@@ -98,6 +98,8 @@ const ChartsContainer = () => {
     ],
   };
 
+  console.log('timeSeries :>> ', timeSeries);
+
   return isChartLoaded && !resetChart ? (
     <div>
       <HighchartsReact
