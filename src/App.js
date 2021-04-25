@@ -1,8 +1,8 @@
 import React from 'react';
-import StocksContainer from './features/stocks/StocksContainer';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
+import CardContainer from './containers/CardContainer';
 
 function App() {
   const theme = createMuiTheme({
@@ -27,7 +27,7 @@ function App() {
       <CssBaseline />
       <div className="App">
         <h3>Stocks Management</h3>
-        <StocksContainer />
+        <CardContainer />
       </div>
     </ThemeProvider>
   );

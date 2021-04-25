@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
@@ -5,13 +6,11 @@ import Autocomplete, {
   createFilterOptions,
 } from '@material-ui/lab/Autocomplete';
 import { useDispatch } from 'react-redux';
-import ListboxComponent from './ListboxComponent';
-import {
-  fetchTimeSeriesAsync,
-  selectStocks,
-  setResetChart,
-} from './stocksSlice';
 import { Button, makeStyles } from '@material-ui/core';
+import ListboxComponent from './ListboxComponent';
+import { setResetChart, setFilterDates } from './stocksSlice';
+import DatePickers from '../datepicker/DatePicker';
+import { fetchTimeSeriesAsync } from '../stocks/asyncThunkOps';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -24,6 +23,10 @@ const useStyles = makeStyles((theme) => {
 function Stocks({ selectedStocks }) {
   const classes = useStyles();
   const [value, setValue] = useState([]);
+  const [date, setDate] = useState({
+    from: '',
+    to: '',
+  });
 
   const dispatch = useDispatch();
 
@@ -33,7 +36,7 @@ function Stocks({ selectedStocks }) {
     }
   }, [value]);
 
-  const handleChange = (event, newValue) => {
+  const handleAutoCompleteChange = (event, newValue) => {
     setValue([...newValue]);
   };
 
@@ -43,8 +46,21 @@ function Stocks({ selectedStocks }) {
   });
 
   const handleClick = () => {
-    dispatch(fetchTimeSeriesAsync(value));
+    dispatch(fetchTimeSeriesAsync(value, date));
   };
+
+  const handleDate = (value, dateOf) => {
+    setDate({
+      ...date,
+      [dateOf]: value,
+    });
+  };
+
+  useEffect(() => {
+    if (date.from !== '' && date.to !== '') {
+      dispatch(setFilterDates(date));
+    }
+  }, [date]);
 
   return (
     <>
@@ -52,10 +68,9 @@ function Stocks({ selectedStocks }) {
         multiple
         id="fixed-tags"
         value={value}
-        onChange={handleChange}
+        onChange={handleAutoCompleteChange}
         options={selectedStocks}
         getOptionLabel={(option) => {
-          console.log(value);
           return option.symbol;
         }}
         renderTags={(tagValue, getTagProps) =>
@@ -72,7 +87,13 @@ function Stocks({ selectedStocks }) {
         filterOptions={filterOptions}
         ListboxComponent={ListboxComponent}
       />
-      <Button className={classes.button} onClick={handleClick}>
+      <DatePickers label="From" value={date.from} onChange={handleDate} />
+      <DatePickers label="To" value={date.to} onChange={handleDate} />
+      <Button
+        className={classes.button}
+        onClick={handleClick}
+        disabled={!(date.from !== '' && date.to !== '')}
+      >
         Generate Chart
       </Button>
     </>

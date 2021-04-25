@@ -1,11 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-  createTimeSeries,
-  createVolumeData,
-  createSeriesOptions,
-} from '../../utils/chartUtils';
+import { createSlice } from '@reduxjs/toolkit';
+import { createTimeSeries } from '../../utils/chartUtils';
 import { FILTERS } from '../../utils/constants';
-import { fetchStocksAPI } from './stocksAPI';
+import { fetchStocksAsync, fetchTimeSeriesAsync } from './asyncThunkOps';
 
 const initialState = {
   stocks: [],
@@ -17,35 +13,11 @@ const initialState = {
   seriesOptions: [],
   filteredBy: FILTERS.NO_FILTER,
   resetChart: false,
+  filterDates: {
+    from: '',
+    to: '',
+  },
 };
-
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(fetchStocks(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched. Thunks are
-// typically used to make async requests.
-export const fetchStocksAsync = createAsyncThunk(
-  'stocks/fetchUSStocks',
-  async () => {
-    const endpoint =
-      'https://finnhub.io/api/v1/stock/symbol?exchange=US&token=c1u1vo2ad3ifani3r9l0';
-    // const response = await fetchStocksAPI(endpoint);
-    const response = await import('../charts/stockData.js');
-    // The value we return becomes the `fulfilled` action payload
-    return response.stockData;
-  }
-);
-export const fetchTimeSeriesAsync = createAsyncThunk(
-  'stocks/fetchTimeSeriesData',
-  async (stocks) => {
-    const endpoint =
-      'https://finnhub.io/api/v1/stock/candle?symbol=AAPL&resolution=1&from=1615298999&to=1615302599&token=c1u1vo2ad3ifani3r9l0';
-    // const response = await fetchStocksAPI(endpoint);
-    const response = await import('../charts/data.js');
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
-  }
-);
 
 export const stocksSlice = createSlice({
   name: 'stocks',
@@ -65,17 +37,29 @@ export const stocksSlice = createSlice({
     setSeriesOptions: (state, action) => {
       return {
         ...state,
-        seriesOptions: createSeriesOptions({
-          timeSeries: state.timeSeriesData,
-          volumeData: state.volumeData,
-        }),
       };
     },
     setFilteredBy: (state, action) => {
-      state.filteredBy = action.payload;
+      const timeSeriesData = createTimeSeries(state.actualData, action.payload);
+      return {
+        ...state,
+        filteredBy: action.payload,
+        isChartLoaded: true,
+        seriesOptions: timeSeriesData,
+        resetChart: false,
+      };
     },
     setResetChart: (state, action) => {
-      state.resetChart = action.payload;
+      return {
+        ...state,
+        resetChart: action.payload,
+        timeSeries: [],
+        volumeData: [],
+        seriesOptions: [],
+      };
+    },
+    setFilterDates: (state, action) => {
+      state.filterDates = action.payload;
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -101,15 +85,17 @@ export const stocksSlice = createSlice({
         state.isChartLoaded = false;
       })
       .addCase(fetchTimeSeriesAsync.fulfilled, (state, action) => {
-        const timeSeriesData = createTimeSeries(action.payload);
-        const volumeData = createVolumeData(action.payload);
-        return {
-          ...state,
-          isChartLoaded: true,
-          timeSeriesData: [...state.timeSeriesData, ...timeSeriesData],
-          volumeData: [...state.volumeData, ...volumeData],
-          resetChart: false,
-        };
+        if (action.payload.length) {
+          const timeSeriesData = createTimeSeries(action.payload);
+          return {
+            ...state,
+            isChartLoaded: true,
+            seriesOptions: timeSeriesData,
+            resetChart: false,
+            actualData: action.payload,
+          };
+        }
+        return state;
       });
   },
 });
@@ -118,6 +104,7 @@ export const {
   selectStocks,
   setFilteredBy,
   setResetChart,
+  setFilterDates,
 } = stocksSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
@@ -130,7 +117,9 @@ export const getTimeSeriesData = (state) =>
 export const getVolumeData = (state) => state.stocksCollection.volumeData;
 export const getSelectedStocks = (state) =>
   state.stocksCollection.selectedStocks;
-export const getFilter = (state) => state.stocksCollection.filteredBy;
+export const getFilteredBy = (state) => state.stocksCollection.filteredBy;
 export const getResetChart = (state) => state.stocksCollection.resetChart;
+export const getFilteredDates = (state) => state.stocksCollection.filterDates;
+export const getSeriesOptions = (state) => state.stocksCollection.seriesOptions;
 
 export default stocksSlice.reducer;

@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = '/api';
 axios.defaults.headers.common.Accept = 'application/json';
 axios.defaults.headers.common['Content-Type'] =
   'application/x-www-form-urlencoded';
 
 // Allowing cors
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
 
 // finnhub api secret key in added in the header
 axios.defaults.headers.common['X-Finnhub-Secret'] = 'c1u1vo2ad3ifani3r9l0';

@@ -1,8 +1,8 @@
 import { FILTERS } from './constants';
 
-export const createTimeSeries = (payload = [], filter = FILTERS.NO_FILTER) => {
+const filterOut = (filter, payload) => {
   const timeSeries = [];
-  if (payload) {
+  if (payload?.t) {
     if (filter === FILTERS.NO_FILTER) {
       for (let i = 0; i < payload.t.length; i++) {
         timeSeries.push([
@@ -18,81 +18,64 @@ export const createTimeSeries = (payload = [], filter = FILTERS.NO_FILTER) => {
       for (let i = 0; i < payload.t.length; i++) {
         timeSeries.push([payload.t[i], payload.o[i]]);
       }
-      return timeSeries;
     } else if (filter === FILTERS.CLOSE) {
       for (let i = 0; i < payload.t.length; i++) {
         timeSeries.push([payload.t[i], payload.c[i]]);
       }
-      return timeSeries;
     } else if (filter === FILTERS.HIGH) {
       for (let i = 0; i < payload.t.length; i++) {
         timeSeries.push([payload.t[i], payload.h[i]]);
       }
-      return timeSeries;
     } else if (filter === FILTERS.LOW) {
       for (let i = 0; i < payload.t.length; i++) {
         timeSeries.push([payload.t[i], payload.l[i]]);
       }
-      return timeSeries;
     }
   }
   return timeSeries;
 };
 
-export const createVolumeData = (payload = []) => {
-  const volumData = [];
-  if (payload) {
-    for (let i = 0; i < payload.t.length; i++) {
-      volumData.push([payload.t[i], payload.v[i]]);
-    }
-    return volumData;
+export const createTimeSeries = (payload = [], filter = FILTERS.NO_FILTER) => {
+  const seriesOptions = [];
+  if (payload && payload.length) {
+    const combinedData = payload
+      .map((i) => ({
+        data: filterOut(filter, i.value.data),
+        name: i.value.name,
+      }))
+      .map((i) => ({
+        type: filter === FILTERS.NO_FILTER ? 'candlestick' : 'line',
+        data: i.data,
+        name: i.name,
+      }));
+    return [...combinedData, ...createVolumeData(payload)];
   }
-  return volumData;
+  return seriesOptions;
 };
 
-export const createSeriesOptions = (
-  { timeSeries, volumeData } = { timeSeries: [], volumeData: [] }
-) => {
-  const groupingUnits = [
-    [
-      'week', // unit name
-      [1], // allowed multiples
-    ],
-    ['month', [1, 2, 3, 4, 6]],
-  ];
-
-  return (
-    {
-      name: 'AAPL',
-      data: timeSeries,
-      dataGrouping: {
-        units: groupingUnits,
-      },
-    },
-    {
-      name: 'GOOGL',
-      data: timeSeries,
-      dataGrouping: {
-        units: groupingUnits,
-      },
-    },
-    {
-      type: 'column',
-      name: 'Volume',
-      data: volumeData,
-      yAxis: 1,
-      dataGrouping: {
-        units: groupingUnits,
-      },
-    },
-    {
-      type: 'column',
-      name: 'Volume',
-      data: volumeData,
-      yAxis: 1,
-      dataGrouping: {
-        units: groupingUnits,
-      },
+const volumeLogic = (payload = []) => {
+  const volumeData = [];
+  if (payload && payload.length && payload?.t) {
+    for (let i = 0; i < payload.t.length; i++) {
+      volumeData.push([payload.t[i], payload.v[i]]);
     }
-  );
+  }
+  return volumeData;
+};
+
+export const createVolumeData = (payload = []) => {
+  if (payload && payload.length) {
+    const combinedData = payload
+      .map((i) => ({
+        data: volumeLogic(i.value.data),
+      }))
+      .map((i) => ({
+        type: 'column',
+        data: i.data,
+        yAxis: 1,
+        name: 'Volume',
+      }));
+    return combinedData;
+  }
+  return [{ type: 'column', name: 'Volume', data: [], yAxis: 1 }];
 };
