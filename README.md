@@ -1,3 +1,40 @@
+# STOCKS APP
+This application can
+
+1.  Display the time series of prices of the selected stocks in the same chart
+1. Can't select more than 3 stocks to display at the same time
+1. Toggle between the following price types in the interactive chart
+    * Open Prices
+    * High Prices
+    * Low Prices
+    * Close Prices
+1. Can change the date range in the interactive chart
+
+
+## Major features
+
+1. Auto completes searches in the stocks
+1. Used Highchart and dyamic render between candlestick and line charts
+1. Can load more than 15K records without any hassle
+
+## APIs used by this application
+
+* Used to display the initial stocks results
+    * https://finnhub.io/docs/api#stock-symbols
+* Used this api to get the OHLC(Open, High, Low, Close) chart
+    * https://finnhub.io/docs/api#stock-candles
+
+## Application Tech stack
+* React
+* Material UI
+* Redux
+* Redux Toolkit
+* React Window
+* Highchart
+* Moment
+* Axios (future use)
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
