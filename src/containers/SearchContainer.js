@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => {
 // Top container contains
 // Stocks Component
 // Loader which waits for the first API ${BASE_URL}/symbol?exchange=US&token=${TOKEN} from the dispatch
-export default function TopContainer() {
+export default function SearchContainer() {
   const classes = useStyles();
   const dispatch = useDispatch();
 

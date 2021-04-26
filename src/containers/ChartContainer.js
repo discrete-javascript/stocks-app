@@ -11,7 +11,7 @@ import FilterButtons from '../features/filterbuttons/FilterButtons';
 
 // Renders isChartLoaded && !resetChart is true
 // then it loads filterbuttons and chart for display
-const BottomContainer = () => {
+const ChartContainer = () => {
   // finds if charts is loaded from the redux store
   const isChartLoaded = useSelector(getIsChartLoaded);
   // check chart data is reset from the redux store
@@ -29,4 +29,4 @@ const BottomContainer = () => {
   );
 };
 
-export default BottomContainer;
+export default ChartContainer;
