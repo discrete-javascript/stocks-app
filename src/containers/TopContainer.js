@@ -45,14 +45,19 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+// Top container contains
+// Stocks Component
+// Loader which waits for the first API ${BASE_URL}/symbol?exchange=US&token=${TOKEN} from the dispatch
 export default function TopContainer() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Calls the api ${BASE_URL}/symbol?exchange=US&token=${TOKEN} for loading all the US stocks
     dispatch(fetchStocksAsync());
   }, []);
 
+  // After calling the api this is where we are getting from the redux store of the selectedStocks
   const selectedStocks = useSelector(getStocks);
 
   return (

@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Renders the DatePickers for the selecting the dates from and to
 export default function DatePickers({ label, onChange, value }) {
   const classes = useStyles();
 
@@ -38,6 +39,7 @@ export default function DatePickers({ label, onChange, value }) {
   );
 }
 
+// Props for DatePickers
 DatePickers.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func,

@@ -1,3 +1,4 @@
+// Filters used in the charts
 export const FILTERS = {
   NO_FILTER: 'no-filter',
   OPEN: 'open',

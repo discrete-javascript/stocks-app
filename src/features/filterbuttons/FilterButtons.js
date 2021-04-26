@@ -5,12 +5,15 @@ import { FILTERS } from '../../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilteredBy, setFilteredBy } from '../stocks/stocksSlice';
 
+// Render the buttons for the toggle between filters in the charts
 export default function FilterButtons() {
+  // Get the filtereby from redux store
   const filteredBy = useSelector(getFilteredBy);
 
   const dispatch = useDispatch();
 
   const handleFilter = (event, toggle) => {
+    // Set the filtereby to the redux store
     dispatch(setFilteredBy(toggle));
   };
 

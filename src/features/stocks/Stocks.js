@@ -43,10 +43,21 @@ function Stocks({ selectedStocks }) {
 
   useEffect(() => {
     if (!value.length) {
+      // called to reset the chart to load fresh data
       dispatch(setResetChart(true));
     }
   }, [value]);
 
+  /**
+   * Summary: Ha  ndles autocomplete changes and sets in the state
+   *
+   * Description. (use period)
+   *
+   * @param {object}   event      event from the autocomplete.
+   * @param {object}   newValue   new value which get from the selection of autocomplete
+   *
+   * @return no return.
+   */
   const handleAutoCompleteChange = (event, newValue) => {
     setValue([...newValue]);
   };
@@ -56,10 +67,27 @@ function Stocks({ selectedStocks }) {
     limit: 500,
   });
 
+  /**
+   * Summary: Calls api to load the specific stocks
+   *
+   * @param null no params
+   *
+   * @return no return.
+   */
   const handleClick = () => {
     dispatch(fetchTimeSeriesAsync(value, date));
   };
 
+  /**
+   * Summary: Set the state for setDate
+   *
+   * Description. (use period)
+   *
+   * @param {string}   value   date from the date picker.
+   * @param {string}   dateOf  from which datepicker is from or to
+   *
+   * @return no return.
+   */
   const handleDate = (value, dateOf) => {
     setDate({
       ...date,
@@ -69,6 +97,7 @@ function Stocks({ selectedStocks }) {
 
   useEffect(() => {
     if (date.from !== '' && date.to !== '') {
+      // To save the filter dates in redux store
       dispatch(setFilterDates(date));
     }
   }, [date]);

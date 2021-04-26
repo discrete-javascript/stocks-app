@@ -1,5 +1,14 @@
 import { FILTERS } from './constants';
 
+/**
+ * Summary: Filterout is used in the create data used in series options
+ *
+ * @param {string}   filter      FILTERS from the constants.
+ * @param {object}   payload     contains open, close, high, low, time as array of values.
+ * this is payload {c: [], t: [], h: [], l: [], o: [],}
+ *
+ * @return {array} timeSeries data array.
+ */
 const filterOut = (filter, payload) => {
   const timeSeries = [];
   if (payload?.t) {
@@ -35,6 +44,15 @@ const filterOut = (filter, payload) => {
   return timeSeries;
 };
 
+/**
+ * Summary: To create the series options for the DynamicChart Component
+ *
+ * @param {object} payload this is payload which we got the allsetted promise
+ * [value: { data: {c: [], t: [], h: [], l: [], o: [],}}, name: 'symbol']   .
+ * @param {string} filter     contains open, close, high, low, time as array of values.
+ *
+ * @return {array} series options as an array.
+ */
 export const createTimeSeries = (payload = [], filter = FILTERS.NO_FILTER) => {
   const seriesOptions = [];
   if (payload && payload.length) {
@@ -53,6 +71,15 @@ export const createTimeSeries = (payload = [], filter = FILTERS.NO_FILTER) => {
   return seriesOptions;
 };
 
+/**
+ * Summary: To create volumes for the DynamicChart used
+ * in the createVolumeData for creating dynamic volumes
+ *
+ * @param {object}   payload     contains time, volume as array of values
+ * this is payload {t: [], v: []}
+ * which correlates with candlestick || line chart which got created in the above function
+ * @return {array} Volume data.
+ */
 const volumeLogic = (payload = []) => {
   const volumeData = [];
   if (payload && payload.length && payload?.t) {
@@ -63,6 +90,14 @@ const volumeLogic = (payload = []) => {
   return volumeData;
 };
 
+/**
+ * Summary: Creates volume data for the createTimeSeries method in the return value
+ *
+ * @param {object}   payload     payload this is payload which we got the allsetted promise
+ * [value: { data: {t: [], v: []}}, name: 'symbol']
+ *
+ * @return {array} gives the volume data for which is used in createTimeSeries method.
+ */
 export const createVolumeData = (payload = []) => {
   if (payload && payload.length) {
     const combinedData = payload

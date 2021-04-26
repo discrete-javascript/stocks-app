@@ -5,6 +5,9 @@ import './App.css';
 import CardContainer from './containers/CardContainer';
 import ErrorBoundary from './ErrorBoundary';
 
+// Overridden fonts in the actual material ui theme by
+// giving typography and fontFamily
+// Have added respective fonts in the index.css in the body
 export const theme = createMuiTheme({
   typography: {
     fontFamily: [

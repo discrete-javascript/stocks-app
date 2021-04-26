@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// File for future use if we want to use interceptors instead
+// We can write it here and use the exported stockAPI as
+// stockAPI.get({endpoint: 'url'})
 axios.defaults.headers.common.Accept = 'application/json';
 axios.defaults.headers.common['Content-Type'] =
   'application/x-www-form-urlencoded';

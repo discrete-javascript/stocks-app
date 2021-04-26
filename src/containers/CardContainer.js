@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+// Main Container which loads the application
 export default function CardContainer() {
   const classes = useStyles();
 
