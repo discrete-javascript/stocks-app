@@ -3,6 +3,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import CardContainer from './containers/CardContainer';
+import ErrorBoundary from './ErrorBoundary';
 
 function App() {
   const theme = createMuiTheme({
@@ -23,13 +24,15 @@ function App() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div className="App">
-        <h3>Stocks Management</h3>
-        <CardContainer />
-      </div>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="App">
+          <h3>Stocks Management</h3>
+          <CardContainer />
+        </div>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

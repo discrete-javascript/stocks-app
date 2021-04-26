@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createTimeSeries } from '../../utils/chartUtils';
 import { FILTERS } from '../../utils/constants';
-import { fetchStocksAsync, fetchTimeSeriesAsync } from './asyncThunkOps';
+import { fetchStocksAsync, fetchTimeSeriesAsync } from './stocksThunkOps';
 
 const initialState = {
   stocks: [],

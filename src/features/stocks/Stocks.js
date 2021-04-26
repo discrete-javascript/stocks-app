@@ -7,10 +7,12 @@ import Autocomplete, {
 } from '@material-ui/lab/Autocomplete';
 import { useDispatch } from 'react-redux';
 import { Button, makeStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
 import ListboxComponent from './ListboxComponent';
 import { setResetChart, setFilterDates } from './stocksSlice';
 import DatePickers from '../datepicker/DatePicker';
-import { fetchTimeSeriesAsync } from '../stocks/asyncThunkOps';
+import { fetchTimeSeriesAsync } from './stocksThunkOps';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -101,3 +103,6 @@ function Stocks({ selectedStocks }) {
 }
 
 export default React.memo(Stocks);
+Stocks.propTypes = {
+  selectedStocks: PropTypes.array,
+};

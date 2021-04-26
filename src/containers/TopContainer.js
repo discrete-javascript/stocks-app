@@ -7,7 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Stocks from '../features/stocks/Stocks';
 import { getStocks } from '../features/stocks/stocksSlice';
-import { fetchStocksAsync } from '../features/stocks/asyncThunkOps';
+import { fetchStocksAsync } from '../features/stocks/stocksThunkOps';
 
 const useStyles = makeStyles((theme) => {
   return {

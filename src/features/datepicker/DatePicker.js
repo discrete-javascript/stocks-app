@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -36,3 +37,9 @@ export default function DatePickers({ label, onChange, value }) {
     />
   );
 }
+
+DatePickers.propTypes = {
+  label: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+};
