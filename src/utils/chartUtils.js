@@ -82,7 +82,7 @@ export const createTimeSeries = (payload = [], filter = FILTERS.NO_FILTER) => {
  */
 const volumeLogic = (payload = []) => {
   const volumeData = [];
-  if (payload && payload.length && payload?.t) {
+  if (payload && payload?.t) {
     for (let i = 0; i < payload.t.length; i++) {
       volumeData.push([payload.t[i], payload.v[i]]);
     }

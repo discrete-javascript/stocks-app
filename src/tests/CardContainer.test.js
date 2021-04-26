@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { store } from '../app/store';
-import CardContainer from './CardContainer';
+import CardContainer from '../containers/CardContainer';
 
 test('renders please wait', () => {
   const { getByText } = render(

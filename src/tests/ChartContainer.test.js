@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { Provider } from 'react-redux';
 import { store } from '../app/store';
-import BottomContainer from './BottomContainer';
+import BottomContainer from '../containers/ChartContainer';
 
 // Snapshot testing
 it('renders correctly', () => {

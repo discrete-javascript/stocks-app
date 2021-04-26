@@ -25,6 +25,9 @@ export const theme = createMuiTheme({
   },
 });
 
+// Wrapper App wrapped with ErrorBoundary and ThemeProvider
+// ErrorBoundary to capture errors
+// ThemeProvider from the material ui
 function App() {
   return (
     <ErrorBoundary>

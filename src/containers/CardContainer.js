@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
-import TopContainer from './TopContainer';
-import BottomContainer from './BottomContainer';
+import TopContainer from './SearchContainer';
+import BottomContainer from './ChartContainer';
 
 const useStyles = makeStyles((theme) => {
   return {

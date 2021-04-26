@@ -40,10 +40,11 @@ export const stocksSlice = createSlice({
       };
     },
     setFilteredBy: (state, action) => {
-      const timeSeriesData = createTimeSeries(state.actualData, action.payload);
+      const { toggle, actualData } = action.payload;
+      const timeSeriesData = createTimeSeries(actualData, toggle);
       return {
         ...state,
-        filteredBy: action.payload,
+        filteredBy: toggle,
         isChartLoaded: true,
         seriesOptions: timeSeriesData,
         resetChart: false,
@@ -121,5 +122,6 @@ export const getFilteredBy = (state) => state.stocksCollection.filteredBy;
 export const getResetChart = (state) => state.stocksCollection.resetChart;
 export const getFilteredDates = (state) => state.stocksCollection.filterDates;
 export const getSeriesOptions = (state) => state.stocksCollection.seriesOptions;
+export const getActualChartData = (state) => state.stocksCollection.actualData;
 
 export default stocksSlice.reducer;

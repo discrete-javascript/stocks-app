@@ -75,7 +75,7 @@ function Stocks({ selectedStocks }) {
    * @return no return.
    */
   const handleClick = () => {
-    dispatch(fetchTimeSeriesAsync(value, date));
+    dispatch(fetchTimeSeriesAsync({ value, date }));
   };
 
   /**
@@ -123,7 +123,7 @@ function Stocks({ selectedStocks }) {
         renderInput={(params) => (
           <TextField {...params} label="Symbols" variant="outlined" />
         )}
-        limitTags={2}
+        limitTags={3}
         filterOptions={filterOptions}
         ListboxComponent={ListboxComponent}
       />

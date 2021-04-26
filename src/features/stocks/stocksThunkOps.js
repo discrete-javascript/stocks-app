@@ -32,7 +32,7 @@ async function getFetchMaps(stocks, from, to) {
     var data = await Promise.allSettled(
       stocks.map((i) =>
         fetch(
-          `${BASE_URL}/candle?symbol=${i.symbol}&resolution=1&from=${from}&to=${to}&token=${TOKEN}`
+          `${BASE_URL}/candle?symbol=${i.symbol}&resolution=D&from=${from}&to=${to}&token=${TOKEN}`
         )
           .then((response) => response.json())
           .then((data) => ({
@@ -56,7 +56,8 @@ async function getFetchMaps(stocks, from, to) {
 // typically used to make async requests.
 export const fetchTimeSeriesAsync = createAsyncThunk(
   'stocks/fetchTimeSeriesData',
-  async (stocks, date) => {
+  async (data) => {
+    const { value: stocks, date } = data;
     if (stocks.length) {
       const { from, to } = date;
       // getFetchMaps is the method above which calls the promise.allsettled

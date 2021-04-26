@@ -1,5 +1,5 @@
-import { createTimeSeries } from './chartUtils';
-import { FILTERS } from './constants';
+import { createTimeSeries } from '../utils/chartUtils';
+import { FILTERS } from '../utils/constants';
 
 describe('test createTimeSeries', () => {
   it('test createTimeSeries empty', () => {
@@ -50,7 +50,16 @@ describe('test createTimeSeries', () => {
         ],
         name: 'AAPL',
       },
-      { type: 'column', data: [], yAxis: 1, name: 'Volume' },
+      {
+        type: 'column',
+        data: [
+          [1569297600, 33463820],
+          [1569384000, 24018876],
+          [1569470400, 20730608],
+        ],
+        yAxis: 1,
+        name: 'Volume',
+      },
     ];
     expect(createTimeSeries(payload)).toEqual(response);
   });
@@ -83,7 +92,16 @@ describe('test createTimeSeries', () => {
         ],
         name: 'AAPL',
       },
-      { type: 'column', data: [], yAxis: 1, name: 'Volume' },
+      {
+        type: 'column',
+        data: [
+          [1569297600, 33463820],
+          [1569384000, 24018876],
+          [1569470400, 20730608],
+        ],
+        yAxis: 1,
+        name: 'Volume',
+      },
     ];
     expect(createTimeSeries(payload, FILTERS.OPEN)).toEqual(response);
   });
@@ -116,7 +134,16 @@ describe('test createTimeSeries', () => {
         ],
         name: 'AAPL',
       },
-      { type: 'column', data: [], yAxis: 1, name: 'Volume' },
+      {
+        type: 'column',
+        data: [
+          [1569297600, 33463820],
+          [1569384000, 24018876],
+          [1569470400, 20730608],
+        ],
+        yAxis: 1,
+        name: 'Volume',
+      },
     ];
     expect(createTimeSeries(payload, FILTERS.CLOSE)).toEqual(response);
   });
@@ -149,7 +176,16 @@ describe('test createTimeSeries', () => {
         ],
         name: 'AAPL',
       },
-      { type: 'column', data: [], yAxis: 1, name: 'Volume' },
+      {
+        type: 'column',
+        data: [
+          [1569297600, 33463820],
+          [1569384000, 24018876],
+          [1569470400, 20730608],
+        ],
+        yAxis: 1,
+        name: 'Volume',
+      },
     ];
     expect(createTimeSeries(payload, FILTERS.HIGH)).toEqual(response);
   });
@@ -182,7 +218,16 @@ describe('test createTimeSeries', () => {
         ],
         name: 'AAPL',
       },
-      { type: 'column', data: [], yAxis: 1, name: 'Volume' },
+      {
+        type: 'column',
+        data: [
+          [1569297600, 33463820],
+          [1569384000, 24018876],
+          [1569470400, 20730608],
+        ],
+        yAxis: 1,
+        name: 'Volume',
+      },
     ];
     expect(createTimeSeries(payload, FILTERS.LOW)).toEqual(response);
   });
