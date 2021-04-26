@@ -18,6 +18,15 @@ const useStyles = makeStyles((theme) => {
   return {
     button: {
       marginLeft: theme.spacing(2),
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white,
+      '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+      },
+      '&:disabled': {
+        backgroundColor: 'grey',
+        color: theme.palette.common.white,
+      },
     },
   };
 });
