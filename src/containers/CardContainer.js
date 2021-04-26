@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 // Main Container which loads the application
+// Application is split into two top container and bottom container
 export default function CardContainer() {
   const classes = useStyles();
 
